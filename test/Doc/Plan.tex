@@ -1,0 +1,84 @@
+\documentclass{acm_proc_article-sp}
+
+
+
+\title{BitCoin a Peer-to-Peer payment solution}
+\subtitle{[Security Considerations]
+\titlenote{This paper is the conclusion of a second year project in
+a French engeniering school Ensimag for more informations see
+\texttt{www.ensimag.grenoble-inp.fr/} or 
+\texttt{www.ensiwiki.ensimag.fr/index.php/4MMPCRYPTO\_2013}}}
+
+\date{16 June 2013}
+\begin{document}
+\maketitle
+
+\section{Project}
+In this project we propose to investigate a novative system of payment
+the BitCoin. After compiling some documentation we decided to investigate
+three (3) different security problems:
+\begin{itemize}
+\item[-] the first one is the heart of this system : forgery of a proof of work;
+\item[-] the second is the notion of \textbf{anonimity} 
+during a transaction;
+\item[-] the third issue we choosed to focus on was an anomaly in
+the transaction record detected by Dorit Ron \& Adi Shamir in their 2012 paper
+\footnote{\texttt{www.eprint.iacr.org/2012/584.pdf}}.
+\end{itemize}
+\section{Introduction}
+First draft of the article with simple idea and short descriptions.
+
+\section{A Peer-to-Peer payement System: BitCoin}
+\subsection{Traditionnal Banking}
+How traditionnal banking works (security specifications, advantages, inconvinients...).
+
+
+\begin{table}[h]
+\centering
+\caption{Banking vs PtP}
+\begin{tabular}{|c|c|c|l|} \hline
+&Mint &Public Transactions &Anonimity\\ \hline
+Bank & Yes & No & Yes\\ \hline
+PtP & No & Yes & Bof \\ \hline
+\hline\end{tabular}
+\end{table}
+
+\subsection{BitCoin specificities}
+Differences between PtP money and usual money description of the protocole
+etc... 
+!!Proof of work!!
+An attacker with more CPU power than all the other nodes on the network
+could benefit from it by mining (costs of maintaining such CPU
+power on electricity connection??) said Nakamoto. Simple verification 
+trust a small number of nodes (security flow?)
+
+
+\section{Forging a proof of work}
+\subsection{Theoric complexity}
+Present the theory developped in "Bitcoin: A Peer-to-Peer Electronic Cash System" by Satoshi Nakamoto and deduce the complexity of
+an attack, based on redoing a full proof of work.
+
+\subsection{Effective complexity}
+Implement a begenning of redoing a proof of work, then monitor the 
+beginning (the entire history of transactions is available online)
+and extrapolate to deduce an effective complexity.
+\subsection{An other way to forge a transation}
+The bitcoin system of validation of a transaction allows a user to ask others if the transation is valid. To attack you may not need to redo the proof of work but just give false information. issue we can address:
+\begin{itemize}
+
+\item[-] who utilise the peer validation;
+\item [-]how much node is it necessary to have to make this methode of validation unreliable;
+\item[-] how to detect such attak.
+
+\end{itemise}
+
+\section{Use attack to destroy anonimity or steal identities}
+Present (and analyse) the complexity of the attack described in
+the Ron \& Shamir paper. Parse the history of transactions so we can work whith it. Modify it to gain informations (merging public key belonging to the same user). Then see how to gather external information on bitcoin user. Question to answer : is it possible (and by who?) to discover the identity of bitcoin users.
+
+\section{Anomaly in the BitCoin transaction flow}
+ Using the publicly available history of transaction we can analyse anomaly in the transation flow. In this section we can utilise what we will learn about anonymity and security of bitcoin user to better understand these anomaly. 
+ 
+\balancecolumns
+% That's all folks!
+\end{document}
