@@ -113,15 +113,20 @@ The bitcoin system of validation of a transaction allows a user to ask others if
 \item [-]how much node is it necessary to have to make this methode of validation unreliable;
 \item[-] how to detect such attak.
 
-\end{itemise}
+\end{itemize}
 
 \section{Use attack to destroy anonimity or steal identities}
 Present (and analyse) the complexity of the attack described in
 the Ron \& Shamir paper. Parse the history of transactions so we can work whith it. Modify it to gain informations (merging public key belonging to the same user). Then see how to gather external information on bitcoin user. Question to answer : is it possible (and by who?) to discover the identity of bitcoin users.
-
+\subsection{The case of multi-signature transaction}
+Standart bitcoin transaction are single-signature transaction, however the Bitcoin network allows multi-signatures transaction (M-ofN transaction). We can espect ,in these transaction, multiple input from multiple person. We can adapt the parser to know what is the ratio multiple/single signature tansaction.
+\subsection{Other issues}
+several user can provide input and sign the same output(the transaction have now multiple input made by different entity.
+Sevices as Mtgox might use this feature.
 \section{Anomaly in the BitCoin transaction flow}
  Using the publicly available history of transaction we can analyse anomaly in the transation flow. In this section we can utilise what we will learn about anonymity and security of bitcoin user to better understand these anomaly. 
- 
+\section{links and refenreces}
+
 \balancecolumns
 % That's all folks!
 \end{document}
