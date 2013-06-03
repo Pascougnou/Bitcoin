@@ -1,6 +1,6 @@
 \documentclass{acm_proc_article-sp}
 
-
+\begin{document}
 
 \title{BitCoin a Peer-to-Peer payment solution}
 \subtitle{[Security Considerations]
@@ -9,8 +9,24 @@ a French engeniering school Ensimag for more informations see
 \texttt{www.ensimag.grenoble-inp.fr/} or 
 \texttt{www.ensiwiki.ensimag.fr/index.php/4MMPCRYPTO\_2013}}}
 
+\numberofauthors{3}
+\author{
+\alignauthor
+Jean\-Guillaume Dumas\\
+       \affaddr{University Joseph Fourier Grenoble}\\
+       \email{Jean-Guillaume.Dumas@imag.fr}
+\alignauthor
+Pascal Sygnet\\
+       \affaddr{Grenoble INP Ensimag}\\
+       \email{Pascal@Sygnet.info}
+\alignauthor 
+Vincent Xuereb\\
+       \affaddr{The Th{\o}rv{\"a}ld Group}\\
+       \email{Vincent.Xuereb@Phelma.Grenoble-inp.fr}
+}
+
+
 \date{16 June 2013}
-\begin{document}
 \maketitle
 
 \section{Project}
@@ -30,27 +46,54 @@ First draft of the article with simple idea and short descriptions.
 
 \section{A Peer-to-Peer payement System: BitCoin}
 \subsection{Traditionnal Banking}
-How traditionnal banking works (security specifications, advantages, inconvinients...).
-
+A traditionnal electronic cash system (via internet or any kind of network)
+is based on a central authority \textbf{the mint}. 
+This mint (or bank) is aware of all transactions, of the balance of each 
+and evry account in his own network and is responsible of security and anonimity 
+of the transactions. To ensure privacy the bank keeps informations only bettween
+the involved parties. The main advantage is the simplicity of protecting a 
+transaction as the only requiered informations to spend money is a single 
+identification as the bank has access to both balance of accounts and the time of 
+the transaction. The entire intelligence (verification and issuing the keys) is
+tranfered into the mint so the users only need to know their own key (\& id).
+A real problem of this system is that it relies on a single central mint. If it
+was to collapse evry history of transactions and evry amount of money would be 
+lost without any chance of recovery.
+That's why people started to envestigate different solutions like BitCoin (based on a peer-to-peer network) for example. Here is a summary of the specifications of some "<famous"> electronnic currencies. 
 
 \begin{table}[h]
 \centering
-\caption{Banking vs PtP}
-\begin{tabular}{|c|c|c|l|} \hline
-&Mint &Public Transactions &Anonimity\\ \hline
-Bank & Yes & No & Yes\\ \hline
-PtP & No & Yes & Bof \\ \hline
-\hline\end{tabular}
+\caption{Some Electronic Currencies specifications}
+\begin{tabular}{|p{1,5cm}|p{2cm}|p{1,5cm}|p{1,5cm}|p{1cm}|} \hline
+&Mint &Public Transactions &Anonimity &PtP\\ \hline
+Bank & Yes & No & Yes & No\\ \hline
+Ripple & No & Yes & depends & Yes\\ \hline
+KARMA & distributed & No & Yes & Yes\\ \hline 
+PPay & A user = Mint for evry coin he generates & No & Yes & Yes\\ \hline
+BitCoin & No & Yes & we'll see & Yes\\ \hline
+\end{tabular}
 \end{table}
 
+In the rest of this article we'll focus on one particular currency, the BitCoin.
+
 \subsection{BitCoin specificities}
-Differences between PtP money and usual money description of the protocole
-etc... 
 !!Proof of work!!
 An attacker with more CPU power than all the other nodes on the network
 could benefit from it by mining (costs of maintaining such CPU
 power on electricity connection??) said Nakamoto. Simple verification 
 trust a small number of nodes (security flow?)
+BitCoin is a peer-to-peer electronic currency system first described
+by S. Nakamoto in 2008 \footnote{www.bitcoin.org/bitcoin.pdf}. It's based on
+digital signature to prove ownership and an history of transactions publicly 
+available to avoid double-spending. This history is shared using a peer-to-peer 
+network and users agree on it using a proof-of-work system.
+A BitCoin (or simply coin) is a chain of digital signatures, each owner signs
+a hash of the prevous transaction and the public key of the next owner and 
+adds this at the end of the coin. To avoid double-spending the system implements
+a distributed timestamp server based on a proof-of-work system. Each time a 
+node is notified of transactions, it puts them in a block and then hashes a
+nonce (using SHA-256) and the previous hash in the proof-of-work incrementing 
+it until it start with a predetermine number of zeros.     
 
 
 \section{Forging a proof of work}
