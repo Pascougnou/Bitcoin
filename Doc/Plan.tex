@@ -88,13 +88,13 @@ digital signature to prove ownership and an history of transactions publicly
 available to avoid double-spending. This history is shared using a peer-to-peer 
 network and users agree on it using a proof-of-work system.
 A BitCoin (or simply coin) is a chain of digital signatures, each owner signs
-a hash of the prevous transaction and the public key of the next owner and 
-adds this at the end of the coin. To avoid double-spending the system implements
-a distributed timestamp server based on a proof-of-work system. Each time a 
-node is notified of transactions, it puts them in a block and then hashes a
-nonce (using SHA-256) and the previous hash in the proof-of-work incrementing 
-it until it start with a predetermine number of zeros.     
-
+a hash of the prevous transaction and the public key of the next owner 
+(using \txtbf{ECDSA}) and adds this at the end of the coin. To avoid 
+double-spending the system implements a distributed timestamp server
+based on a proof-of-work system. Each time a node is notified of 
+transactions, it puts them in a block and then hashes a nonce 
+(using \textbf{SHA-256}) and the previous hash in the proof-of-work 
+incrementing it until it start with a predetermine number of zeros.     
 
 \section{Forging a proof of work}
 \subsection{Theoric complexity}
