@@ -1,5 +1,6 @@
 #include <bitcoin/bitcoin.hpp>
 #include <fstream>
+#include <iostream>
 using namespace bc;
 
 typedef struct block_header
@@ -51,7 +52,7 @@ void depth_fetched(const std::error_code& ec, size_t last_depth)
     // Display the block number.
     log_info() << "depth: " << last_depth;
     assert(chain);
-    // Begin fetching the block header.
+   // Begin fetching the block header.
     chain->fetch_block_header(last_depth, display_block_recupinfo);
 }
 
@@ -182,15 +183,11 @@ int main(int argc, char **argv)
     std::cin.get();
     display(blocfetch);
     std::cin.get();
-    std::ofstream fichier("testblock", std::ios::binary);
+    std::fstream fichier;
+    fichier.open("testblock", std::ios::out | std::ios::binary);
     if (fichier)
     {
-        fichier << blocfetch.version;
-        fichier << blocfetch.previous_block_hash;
-        fichier << blocfetch.merkle;
-        fichier << blocfetch.timestamp;
-        fichier << blocfetch.bits;
-        fichier << blocfetch.nonce;
+        fichier.write(((char*)&blocfetch), sizeof(blocfetch));
 	fichier.close();
     }
     else
