@@ -1,5 +1,5 @@
-#ifndef ADDBLOCK_HPP
-#define ADDBLOCK_HPP_HPP
+#ifndef ADDBLOCK_H
+#define ADDBLOCK_H
 
 #include <future>
 #include <bitcoin/bitcoin.hpp>

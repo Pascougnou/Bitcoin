@@ -1,60 +1,18 @@
-#include <bitcoin/bitcoin.hpp>
-#include <fstream>
-#include <iostream>
-using namespace bc;
-
-typedef struct block_header
-{
-    uint32_t version;
-    hash_digest previous_block_hash;
-    hash_digest merkle;
-    uint32_t timestamp;
-    uint32_t bits;
-    uint32_t nonce;
-}block_header;
-
-block_header blocfetch;
-
-void display_block_recupinfo(const std::error_code& ec, const block_type& blk);
-void display(block_header blk);
-
+#include "creationblock.h"
+//#include <bitcoin/bitcoin.hpp>
+//using namespace bc ;
 blockchain* chain = nullptr;
-// Completion handler for when the blockchain has finished initializing.
-void blockchain_started(const std::error_code& ec);
-// Fetch tbe last block now that we have the depth.
-void depth_fetched(const std::error_code& ec, size_t last_depth);
-// Result: print the block header.
-void display_block_header(const std::error_code& ec, const block_type& blk);
 
-void blockchain_started(const std::error_code& ec)
-{
-    // std::error_code's can be tested like bools, and
-    // compared against specific error enums.
-    // See <bitcoin/error.hpp> for a full list of them.
-    if (ec)
-    {
-        log_error() << "Blockchain failed to start: " << ec.message();
-        return;
-    }
-    // Blockchain has safely started.
-    log_info() << "Blockchain started.";
-    assert(chain);
-    chain->fetch_last_depth(depth_fetched);
-}
-
-void depth_fetched(const std::error_code& ec, size_t last_depth)
-{
-    if (ec)
-    {
-        log_error() << "Failed to fetch last depth: " << ec.message();
-        return;
-    }
-    // Display the block number.
-    log_info() << "depth: " << last_depth;
-    assert(chain);
-   // Begin fetching the block header.
-    chain->fetch_block_header(last_depth, display_block_recupinfo);
-}
+//typedef struct block_header
+//{
+//    uint32_t version;
+//    hash_digest previous_block_hash;
+//    hash_digest merkle;
+//    uint32_t timestamp;
+//    uint32_t bits;
+//    uint32_t nonce;
+//}block_header;
+block_header blocfetch;
 
 void display_block_recupinfo(const std::error_code& ec, const block_type& blk)
 {
@@ -75,7 +33,6 @@ void display_block_recupinfo(const std::error_code& ec, const block_type& blk)
     // implicity calling pretty_hex() on the hash_digest.
     //log_info() << "previous_block_hash: " << blk.previous_block_hash;
     blocfetch.previous_block_hash=blk.previous_block_hash;
-    //log_info() << "merkle: " << blk.merkle;
     blocfetch.merkle=blk.merkle;
     //log_info() << "timestamp: " << blk.timestamp;
     blocfetch.timestamp=blk.timestamp;
@@ -110,28 +67,49 @@ void display(block_header blk)
     // A goodbye message.
     log_info() << "Finished.";
 }
+void depth_fetched(const std::error_code& ec, size_t last_depth)
+{
+    if (ec)
+    {
+        log_error() << "Failed to fetch last depth: " << ec.message();
+        return;
+    }
+    // Display the block number.
+    log_info() << "depth: " << last_depth;
+    assert(chain);
+   // Begin fetching the block header.
+    chain->fetch_block_header(last_depth, display_block_recupinfo);
+}
+
+void blockchain_started(const std::error_code& ec)
+{
+    // std::error_code's can be tested like bools, and
+    // compared against specific error enums.
+    // See <bitcoin/error.hpp> for a full list of them.
+    if (ec)
+    {
+        log_error() << "Blockchain failed to start: " << ec.message();
+        return;
+    }
+    // Blockchain has safely started.
+    log_info() << "Blockchain started.";
+    assert(chain);
+    chain->fetch_last_depth(depth_fetched);
+}
+
 
  
-int main(int argc, char **argv)
+int export_bloc(std::string argv ,block_header *bloc)
 {
-    if (argc != 2)
-	return 1;
     // Define a threadpool with 1 thread.
     threadpool pool(1);
-    const std::string dbpath = argv[1];
+    const std::string dbpath = argv;
     // Create a LevelDB blockchain.
     leveldb_blockchain ldb_chain(pool);
     // Initialize our global 'chain' pointer from above.
     chain = &ldb_chain;
     // Start the database using its implementation specific method.
     ldb_chain.start(dbpath, blockchain_started);
-    // Keep running until the user presses enter.
-    // Since libbitcoin is asynchronous, you need to synchronise with
-    // them to know when to exit safely.
-    // For these examples we just pause until enter for simplicity sake.
-    std::cin.get();
-    display(blocfetch);
-    std::cin.get();
     std::fstream fichier;
     fichier.open("testblock", std::ios::out | std::ios::binary);
     if (fichier)
@@ -146,14 +124,13 @@ int main(int argc, char **argv)
 
     
     std::cout << "taille du header " << sizeof(block_header) << std::endl;
-
-    	
     // Begin stopping the threadpools in parallel (only 1 here).
+    std::cin.get(); // il faut attendre que la db soit lue
     pool.stop();
     // Join them one by one.
     pool.join();
     // Finally stop the blockchain safely now everything has stopped.
     ldb_chain.stop();
+    *bloc=blocfetch;
     return 0;
 }
-
