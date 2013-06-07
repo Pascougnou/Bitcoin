@@ -8,6 +8,7 @@
 #include <sstream>
 #include <bitcoin/bitcoin.hpp>
 
-hash_digest calcul_hash(std::string path);
+hash_digest calcul_hash(block_header blk);
+hash_digest calc_target(block_header bkl);
 
 #endif

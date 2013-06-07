@@ -7,6 +7,7 @@
 ////using namespace bc;
 #include "calculhash.h"
 
+// sert a lire un block -- maintement inutile
 void lecture_block (block_header blk)
 {
    std::ifstream fichier;
@@ -27,24 +28,40 @@ void lecture_block (block_header blk)
         std::cout<<"erreur d'ouverture de fichier"<<std::endl;
    }	
 }
-void litlend_hex( hash_digest*in)
+//Calcule le target a partir de block.bits
+hash_digest calc_target(block_header blk)
 {
-	int i;
-	hash_digest tmp = *in;
-	hash_digest lala;
-	for(i=0;i<32;i++)
+	hash_digest target;
+	int byte1 = blk.bits >> 24; 
+	int byte2 = blk.bits -( byte1 << 24);
+	for (int i=0;i<32;i++)
 	{
-		
+		target[i]=(unsigned char)0;
 	}
+	target[32-byte1+1]=(unsigned char)byte2;
+	target[32-byte1+2]=(unsigned char)(byte2 >> 8);
+	target[32-byte1+3]=(unsigned char)(byte2 >> 16);
+//	std::cout<< "b1 " << byte1 <<" b2 "<< byte2 << " target "<< target << std::endl;
+//	printf("%x",(unsigned char)byte2);
+	return target;
 }
-hash_digest calcul_hash(std::string path)
+hash_digest calcul_hash(block_header blk)
 {
-	block_header blk;
+
 	hash_digest hash;
-	export_bloc(path ,&blk); // on recupere un block de la db
+	// le target est ce que l'on va comparer avec le hash pour savoir si il a le bon nombre de 0.
+	hash_digest target = calc_target(blk);
 	
 	hash=hash_block_header((const libbitcoin::block_type&)blk);  // calcul du hash
-//	std::cout << "hash : " << hash << std::endl;
+	while(hash>target)
+	{	
+//		std::cout << "hash trop grand, nonce = :" << blk.nonce <<std::endl;
+//		std::cout << "hash : " << hash << std::endl << "target : " << target << std::endl;
+//	
+		blk.nonce=blk.nonce + 1;
+		hash=hash_block_header((const libbitcoin::block_type&)blk); 
+	}
+	std::cout << "hash : " << hash << std::endl << "target : " << target << std::endl;
 	return hash;
 }
 

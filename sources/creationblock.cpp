@@ -1,17 +1,6 @@
 #include "creationblock.h"
-//#include <bitcoin/bitcoin.hpp>
-//using namespace bc ;
 blockchain* chain = nullptr;
 
-//typedef struct block_header
-//{
-//    uint32_t version;
-//    hash_digest previous_block_hash;
-//    hash_digest merkle;
-//    uint32_t timestamp;
-//    uint32_t bits;
-//    uint32_t nonce;
-//}block_header;
 block_header blocfetch;
 
 void display_block_recupinfo(const std::error_code& ec, const block_type& blk)
@@ -31,7 +20,7 @@ void display_block_recupinfo(const std::error_code& ec, const block_type& blk)
     blocfetch.version=blk.version;
     // hash_digest can be used directly in log_info(),
     // implicity calling pretty_hex() on the hash_digest.
-    //log_info() << "previous_block_hash: " << blk.previous_block_hash;
+    log_info() << "previous_block_hash: " << blk.previous_block_hash;
     blocfetch.previous_block_hash=blk.previous_block_hash;
     blocfetch.merkle=blk.merkle;
     //log_info() << "timestamp: " << blk.timestamp;
@@ -96,8 +85,6 @@ void blockchain_started(const std::error_code& ec)
     assert(chain);
     chain->fetch_last_depth(depth_fetched);
 }
-
-
  
 int export_bloc(std::string argv ,block_header *bloc)
 {
@@ -121,8 +108,6 @@ int export_bloc(std::string argv ,block_header *bloc)
     {
         std::cout<<"erreur d'ouverture de fichier"<<std::endl;
     }
-
-    
     std::cout << "taille du header " << sizeof(block_header) << std::endl;
     // Begin stopping the threadpools in parallel (only 1 here).
     std::cin.get(); // il faut attendre que la db soit lue

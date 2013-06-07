@@ -16,15 +16,15 @@ int addblock(std::string database, block_type block)
         {
             ec_promise.set_value(ec);
         };
-
    chain.import(block, 1, import_finished); 
+ //  chain.store(block, import_finished); 
    std::error_code ec = ec_promise.get_future().get();
    if (ec)
    {
-        log_error() << "Importing genesis block failed: " << ec.message();
+        log_error() << "Importing block failed: " << ec.message();
         return -1;
    }
-  log_info() << "Imported genesis block " << hash_block_header(block);
+  log_info() << "Imported block " << hash_block_header(block);
   pool.stop();
   pool.join();
   chain.stop();

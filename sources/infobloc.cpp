@@ -33,10 +33,14 @@ void depth_fetched(const std::error_code& ec, size_t last_depth)
         return;
     }
     // Display the block number.
-    log_info() << "depth: " << last_depth;
-    assert(chain);
-    // Begin fetching the block header.
-    chain->fetch_block_header(last_depth, display_block_header);
+    while(last_depth+1)
+    {
+    	log_info() << "depth: " << last_depth;
+    	assert(chain);
+    	// Begin fetching the block header.
+   	 chain->fetch_block_header(last_depth, display_block_header);
+	last_depth=last_depth-1;
+    }
 }
 
 
