@@ -55,7 +55,7 @@ hash_digest calcul_hash(block_header blk)
 	hash=hash_block_header((const libbitcoin::block_type&)blk);  // calcul du hash
 	while(hash>target)
 	{	
-//		std::cout << "hash trop grand, nonce = :" << blk.nonce <<std::endl;
+//		std::cout << " nonce = :" << blk.nonce <<std::endl;
 //		std::cout << "hash : " << hash << std::endl << "target : " << target << std::endl;
 //	
 		blk.nonce=blk.nonce + 1;
